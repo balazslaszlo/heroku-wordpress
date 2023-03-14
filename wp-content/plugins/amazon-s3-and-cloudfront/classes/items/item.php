@@ -393,7 +393,7 @@ abstract class Item {
 		$charset_collate = $wpdb->get_charset_collate();
 
 		$sql = "
-				CREATE TABLE {$table_name} (
+				CREATE TABLE IF NOT EXISTS {$table_name} (
 				id BIGINT(20) NOT NULL AUTO_INCREMENT,
 				provider VARCHAR(18) NOT NULL,
 				region VARCHAR(255) NOT NULL,

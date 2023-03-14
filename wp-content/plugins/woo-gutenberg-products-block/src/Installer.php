@@ -48,7 +48,7 @@ class Installer {
 		$exists      = $this->maybe_create_table(
 			$wpdb->prefix . 'wc_reserved_stock',
 			"
-			CREATE TABLE {$wpdb->prefix}wc_reserved_stock (
+			CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_reserved_stock (
 				`order_id` bigint(20) NOT NULL,
 				`product_id` bigint(20) NOT NULL,
 				`stock_quantity` double NOT NULL DEFAULT 0,

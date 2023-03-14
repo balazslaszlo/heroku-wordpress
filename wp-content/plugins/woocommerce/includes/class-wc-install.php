@@ -754,8 +754,8 @@ class WC_Install {
 
 		// Add constraint to download logs if the columns matches.
 		if ( ! empty( $download_permissions_column_type ) && ! empty( $download_log_column_type ) && $download_permissions_column_type === $download_log_column_type ) {
-			$fk_result = $wpdb->get_row( "SHOW CREATE TABLE {$wpdb->prefix}wc_download_log" );
-			if ( false === strpos( $fk_result->{'Create Table'}, "fk_{$wpdb->prefix}wc_download_log_permission_id" ) ) {
+			$fk_result = $wpdb->get_row( "SHOW CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_download_log" );
+			if ( false === strpos( $fk_result->{'CREATE TABLE IF NOT EXISTS'}, "fk_{$wpdb->prefix}wc_download_log_permission_id" ) ) {
 				$wpdb->query(
 					"ALTER TABLE `{$wpdb->prefix}wc_download_log`
 					ADD CONSTRAINT `fk_{$wpdb->prefix}wc_download_log_permission_id`
@@ -802,7 +802,7 @@ class WC_Install {
 		$max_index_length = 191;
 
 		$tables = "
-CREATE TABLE {$wpdb->prefix}woocommerce_sessions (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_sessions (
   session_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   session_key char(32) NOT NULL,
   session_value longtext NOT NULL,
@@ -810,7 +810,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_sessions (
   PRIMARY KEY  (session_id),
   UNIQUE KEY session_key (session_key)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_api_keys (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_api_keys (
   key_id BIGINT UNSIGNED NOT NULL auto_increment,
   user_id BIGINT UNSIGNED NOT NULL,
   description varchar(200) NULL,
@@ -824,7 +824,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_api_keys (
   KEY consumer_key (consumer_key),
   KEY consumer_secret (consumer_secret)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_attribute_taxonomies (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_attribute_taxonomies (
   attribute_id BIGINT UNSIGNED NOT NULL auto_increment,
   attribute_name varchar(200) NOT NULL,
   attribute_label varchar(200) NULL,
@@ -834,7 +834,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_attribute_taxonomies (
   PRIMARY KEY  (attribute_id),
   KEY attribute_name (attribute_name(20))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_downloadable_product_permissions (
   permission_id BIGINT UNSIGNED NOT NULL auto_increment,
   download_id varchar(36) NOT NULL,
   product_id BIGINT UNSIGNED NOT NULL,
@@ -852,7 +852,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_downloadable_product_permissions (
   KEY order_id (order_id),
   KEY user_order_remaining_expires (user_id,order_id,downloads_remaining,access_expires)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_order_items (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_order_items (
   order_item_id BIGINT UNSIGNED NOT NULL auto_increment,
   order_item_name TEXT NOT NULL,
   order_item_type varchar(200) NOT NULL DEFAULT '',
@@ -860,7 +860,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_order_items (
   PRIMARY KEY  (order_item_id),
   KEY order_id (order_id)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_order_itemmeta (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_order_itemmeta (
   meta_id BIGINT UNSIGNED NOT NULL auto_increment,
   order_item_id BIGINT UNSIGNED NOT NULL,
   meta_key varchar(255) default NULL,
@@ -869,7 +869,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_order_itemmeta (
   KEY order_item_id (order_item_id),
   KEY meta_key (meta_key(32))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_tax_rates (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_tax_rates (
   tax_rate_id BIGINT UNSIGNED NOT NULL auto_increment,
   tax_rate_country varchar(2) NOT NULL DEFAULT '',
   tax_rate_state varchar(200) NOT NULL DEFAULT '',
@@ -886,7 +886,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_tax_rates (
   KEY tax_rate_class (tax_rate_class(10)),
   KEY tax_rate_priority (tax_rate_priority)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_tax_rate_locations (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_tax_rate_locations (
   location_id BIGINT UNSIGNED NOT NULL auto_increment,
   location_code varchar(200) NOT NULL,
   tax_rate_id BIGINT UNSIGNED NOT NULL,
@@ -895,13 +895,13 @@ CREATE TABLE {$wpdb->prefix}woocommerce_tax_rate_locations (
   KEY tax_rate_id (tax_rate_id),
   KEY location_type_code (location_type(10),location_code(20))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zones (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_shipping_zones (
   zone_id BIGINT UNSIGNED NOT NULL auto_increment,
   zone_name varchar(200) NOT NULL,
   zone_order BIGINT UNSIGNED NOT NULL,
   PRIMARY KEY  (zone_id)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_locations (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_shipping_zone_locations (
   location_id BIGINT UNSIGNED NOT NULL auto_increment,
   zone_id BIGINT UNSIGNED NOT NULL,
   location_code varchar(200) NOT NULL,
@@ -910,7 +910,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_locations (
   KEY location_id (location_id),
   KEY location_type_code (location_type(10),location_code(20))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_methods (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_shipping_zone_methods (
   zone_id BIGINT UNSIGNED NOT NULL,
   instance_id BIGINT UNSIGNED NOT NULL auto_increment,
   method_id varchar(200) NOT NULL,
@@ -918,7 +918,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_shipping_zone_methods (
   is_enabled tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY  (instance_id)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokens (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_payment_tokens (
   token_id BIGINT UNSIGNED NOT NULL auto_increment,
   gateway_id varchar(200) NOT NULL,
   token text NOT NULL,
@@ -928,7 +928,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokens (
   PRIMARY KEY  (token_id),
   KEY user_id (user_id)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokenmeta (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_payment_tokenmeta (
   meta_id BIGINT UNSIGNED NOT NULL auto_increment,
   payment_token_id BIGINT UNSIGNED NOT NULL,
   meta_key varchar(255) NULL,
@@ -937,7 +937,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_payment_tokenmeta (
   KEY payment_token_id (payment_token_id),
   KEY meta_key (meta_key(32))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}woocommerce_log (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}woocommerce_log (
   log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   timestamp datetime NOT NULL,
   level smallint(4) NOT NULL,
@@ -947,7 +947,7 @@ CREATE TABLE {$wpdb->prefix}woocommerce_log (
   PRIMARY KEY (log_id),
   KEY level (level)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}wc_webhooks (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_webhooks (
   webhook_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   status varchar(200) NOT NULL,
   name text NOT NULL,
@@ -965,7 +965,7 @@ CREATE TABLE {$wpdb->prefix}wc_webhooks (
   PRIMARY KEY  (webhook_id),
   KEY user_id (user_id)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}wc_download_log (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_download_log (
   download_log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   timestamp datetime NOT NULL,
   permission_id BIGINT UNSIGNED NOT NULL,
@@ -975,7 +975,7 @@ CREATE TABLE {$wpdb->prefix}wc_download_log (
   KEY permission_id (permission_id),
   KEY timestamp (timestamp)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}wc_product_meta_lookup (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_product_meta_lookup (
   `product_id` bigint(20) NOT NULL,
   `sku` varchar(100) NULL default '',
   `virtual` tinyint(1) NULL default 0,
@@ -998,14 +998,14 @@ CREATE TABLE {$wpdb->prefix}wc_product_meta_lookup (
   KEY `onsale` (`onsale`),
   KEY min_max_price (`min_price`, `max_price`)
 ) $collate;
-CREATE TABLE {$wpdb->prefix}wc_tax_rate_classes (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_tax_rate_classes (
   tax_rate_class_id BIGINT UNSIGNED NOT NULL auto_increment,
   name varchar(200) NOT NULL DEFAULT '',
   slug varchar(200) NOT NULL DEFAULT '',
   PRIMARY KEY  (tax_rate_class_id),
   UNIQUE KEY slug (slug($max_index_length))
 ) $collate;
-CREATE TABLE {$wpdb->prefix}wc_reserved_stock (
+CREATE TABLE IF NOT EXISTS {$wpdb->prefix}wc_reserved_stock (
 	`order_id` bigint(20) NOT NULL,
 	`product_id` bigint(20) NOT NULL,
 	`stock_quantity` double NOT NULL DEFAULT 0,

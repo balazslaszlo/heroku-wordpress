@@ -43,7 +43,7 @@ class WPvivid_Uploads_Scanner
         $table_name = $wpdb->prefix . "wpvivid_scan_result";
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
         {
-            $sql = "CREATE TABLE $table_name (
+            $sql = "CREATE TABLE IF NOT EXISTS $table_name (
                 id BIGINT(20) NOT NULL AUTO_INCREMENT,
                 path text NOT NULL,
                 from_post INT NOT NULL,
@@ -63,7 +63,7 @@ class WPvivid_Uploads_Scanner
         $table_name = $wpdb->prefix . "wpvivid_unused_uploads_files";
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
         {
-            $sql = "CREATE TABLE $table_name (
+            $sql = "CREATE TABLE IF NOT EXISTS $table_name (
                 id BIGINT(20) NOT NULL AUTO_INCREMENT,
                 path text NOT NULL,
                 folder text NOT NULL,
@@ -83,7 +83,7 @@ class WPvivid_Uploads_Scanner
         $table_name = $wpdb->prefix . "wpvivid_scan_result";
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
         {
-            $sql = "CREATE TABLE $table_name (
+            $sql = "CREATE TABLE IF NOT EXISTS $table_name (
                 id BIGINT(20) NOT NULL AUTO_INCREMENT,
                 path text NOT NULL,
                 from_post INT NOT NULL,
@@ -144,7 +144,7 @@ class WPvivid_Uploads_Scanner
         $table_name = $wpdb->prefix . "wpvivid_unused_uploads_files";
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name)
         {
-            $sql = "CREATE TABLE $table_name (
+            $sql = "CREATE TABLE IF NOT EXISTS $table_name (
                 id BIGINT(20) NOT NULL AUTO_INCREMENT,
                 path text NOT NULL,
                 folder text NOT NULL,

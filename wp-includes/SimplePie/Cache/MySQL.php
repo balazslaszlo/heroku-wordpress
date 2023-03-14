@@ -128,7 +128,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 
 		if (!in_array($this->options['extras']['prefix'] . 'cache_data', $db))
 		{
-			$query = $this->mysql->exec('CREATE TABLE `' . $this->options['extras']['prefix'] . 'cache_data` (`id` TEXT CHARACTER SET utf8 NOT NULL, `items` SMALLINT NOT NULL DEFAULT 0, `data` BLOB NOT NULL, `mtime` INT UNSIGNED NOT NULL, UNIQUE (`id`(125)))');
+			$query = $this->mysql->exec('CREATE TABLE IF NOT EXISTS `' . $this->options['extras']['prefix'] . 'cache_data` (`id` TEXT CHARACTER SET utf8 NOT NULL, `items` SMALLINT NOT NULL DEFAULT 0, `data` BLOB NOT NULL, `mtime` INT UNSIGNED NOT NULL, UNIQUE (`id`(125)))');
 			if ($query === false)
 			{
 				trigger_error("Can't create " . $this->options['extras']['prefix'] . "cache_data table, check permissions", E_USER_WARNING);
@@ -139,7 +139,7 @@ class SimplePie_Cache_MySQL extends SimplePie_Cache_DB
 
 		if (!in_array($this->options['extras']['prefix'] . 'items', $db))
 		{
-			$query = $this->mysql->exec('CREATE TABLE `' . $this->options['extras']['prefix'] . 'items` (`feed_id` TEXT CHARACTER SET utf8 NOT NULL, `id` TEXT CHARACTER SET utf8 NOT NULL, `data` MEDIUMBLOB NOT NULL, `posted` INT UNSIGNED NOT NULL, INDEX `feed_id` (`feed_id`(125)))');
+			$query = $this->mysql->exec('CREATE TABLE IF NOT EXISTS `' . $this->options['extras']['prefix'] . 'items` (`feed_id` TEXT CHARACTER SET utf8 NOT NULL, `id` TEXT CHARACTER SET utf8 NOT NULL, `data` MEDIUMBLOB NOT NULL, `posted` INT UNSIGNED NOT NULL, INDEX `feed_id` (`feed_id`(125)))');
 			if ($query === false)
 			{
 				trigger_error("Can't create " . $this->options['extras']['prefix'] . "items table, check permissions", E_USER_WARNING);

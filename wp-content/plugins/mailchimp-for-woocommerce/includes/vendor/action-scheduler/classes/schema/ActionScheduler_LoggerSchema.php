@@ -29,7 +29,7 @@ class ActionScheduler_LoggerSchema extends ActionScheduler_Abstract_Schema {
 
 			case self::LOG_TABLE:
 
-				return "CREATE TABLE {$table_name} (
+				return "CREATE TABLE IF NOT EXISTS {$table_name} (
 				        log_id bigint(20) unsigned NOT NULL auto_increment,
 				        action_id bigint(20) unsigned NOT NULL,
 				        message text NOT NULL,

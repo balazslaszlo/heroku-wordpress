@@ -34,7 +34,7 @@ class ActionScheduler_StoreSchema extends ActionScheduler_Abstract_Schema {
 
 			case self::ACTIONS_TABLE:
 
-				return "CREATE TABLE {$table_name} (
+				return "CREATE TABLE IF NOT EXISTS {$table_name} (
 				        action_id bigint(20) unsigned NOT NULL auto_increment,
 				        hook varchar(191) NOT NULL,
 				        status varchar(20) NOT NULL,
@@ -60,7 +60,7 @@ class ActionScheduler_StoreSchema extends ActionScheduler_Abstract_Schema {
 
 			case self::CLAIMS_TABLE:
 
-				return "CREATE TABLE {$table_name} (
+				return "CREATE TABLE IF NOT EXISTS {$table_name} (
 				        claim_id bigint(20) unsigned NOT NULL auto_increment,
 				        date_created_gmt datetime NOT NULL default '0000-00-00 00:00:00',
 				        PRIMARY KEY  (claim_id),
@@ -69,7 +69,7 @@ class ActionScheduler_StoreSchema extends ActionScheduler_Abstract_Schema {
 
 			case self::GROUPS_TABLE:
 
-				return "CREATE TABLE {$table_name} (
+				return "CREATE TABLE IF NOT EXISTS {$table_name} (
 				        group_id bigint(20) unsigned NOT NULL auto_increment,
 				        slug varchar(255) NOT NULL,
 				        PRIMARY KEY  (group_id),
